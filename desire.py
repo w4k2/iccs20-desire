@@ -7,6 +7,7 @@ from sklearn.neighbors import KNeighborsClassifier
 import numpy as np
 from sklearn.metrics import accuracy_score, balanced_accuracy_score
 import sys
+from sklearn.preprocessing import normalize
 np.set_printoptions(threshold=sys.maxsize)
 
 class DESIRE(BaseEstimator, ClassifierMixin):
@@ -68,6 +69,8 @@ class DESIRE(BaseEstimator, ClassifierMixin):
         esm = self.ensemble_support_matrix(X)
 
         # multiplying esm by calculated weights
+        for i in range(self.competences.shape[0]):
+            self.competences[i] = normalize(self.competences[i])
         esm *= self.competences
 
         average_support = np.mean(esm, axis=0)

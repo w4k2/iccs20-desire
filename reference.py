@@ -37,7 +37,7 @@ used_metrics = {
     #'APC': metrics.average_precision_score,
     #'BSL': metrics.brier_score_loss,
     #'CKS': metrics.cohen_kappa_score,
-    'F1': metrics.f1_score,
+    # 'F1': metrics.f1_score,
     #'HaL': metrics.hamming_loss,
     #'HiL': metrics.hinge_loss,
     #'JSS': metrics.jaccard_similarity_score,
