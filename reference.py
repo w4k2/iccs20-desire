@@ -21,10 +21,10 @@ from StratifiedBagging import StratifiedBagging
 classifiers = {
     # "GNB": naive_bayes.GaussianNB(),
     "kNN": neighbors.KNeighborsClassifier(),
-    "SB": StratifiedBagging(ensemble_size=10, oversampler = "None"),
-    "OSB": StratifiedBagging(ensemble_size=10, oversampler = "ROS"),
-    "KNORAU": StratifiedBagging(ensemble_size=10, oversampler = "None", des="KNORAU"),
-    "DESIRE": StratifiedBagging(ensemble_size=10, oversampler = "None", des="DESIRE"),
+    "SB": StratifiedBagging(ensemble_size=100, oversampler = "None"),
+    "OSB": StratifiedBagging(ensemble_size=100, oversampler = "ROS"),
+    "KNORAU": StratifiedBagging(ensemble_size=100, oversampler = "None", des="KNORAU"),
+    "DESIRE": StratifiedBagging(ensemble_size=100, oversampler = "None", des="DESIRE"),
     # 'SVC': svm.SVC(gamma='scale'),
     # 'DTC': tree.DecisionTreeClassifier(),
     #'MLP': neural_network.MLPClassifier()
@@ -37,7 +37,7 @@ used_metrics = {
     #'APC': metrics.average_precision_score,
     #'BSL': metrics.brier_score_loss,
     #'CKS': metrics.cohen_kappa_score,
-    #'F1': metrics.f1_score,
+    'F1': metrics.f1_score,
     #'HaL': metrics.hamming_loss,
     #'HiL': metrics.hinge_loss,
     #'JSS': metrics.jaccard_similarity_score,
@@ -65,7 +65,7 @@ print(
     "# Experiment on %i datasets, with %i estimators using %i metrics."
     % (len(datasets), len(classifiers), len(used_metrics))
 )
-rescube = np.zeros((len(datasets), len(classifiers), len(used_metrics), 5))
+rescube = np.zeros((len(datasets), len(classifiers), len(used_metrics), 50))
 
 # Iterate datasets
 for i, dataset in enumerate(tqdm(datasets, desc="DBS", ascii=True)):
@@ -73,9 +73,9 @@ for i, dataset in enumerate(tqdm(datasets, desc="DBS", ascii=True)):
     X, y, dbname = dataset
 
     # Folds
-    skf = model_selection.StratifiedKFold(n_splits=5, random_state=42)
+    skf = model_selection.RepeatedStratifiedKFold(n_splits=5, n_repeats=10, random_state=42)
     for fold, (train, test) in enumerate(
-        tqdm(skf.split(X, y), desc="FLD", ascii=True, total=5)
+        tqdm(skf.split(X, y), desc="FLD", ascii=True, total=50)
     ):
         X_train, X_test = X[train], X[test]
         y_train, y_test = y[train], y[test]
@@ -98,7 +98,7 @@ with open("results/legend.json", "w") as outfile:
             "datasets": [obj[2] for obj in datasets],
             "classifiers": list(classifiers.keys()),
             "metrics": list(used_metrics.keys()),
-            "folds": 5,
+            "folds": 50,
         },
         outfile,
         indent="\t",

@@ -5,7 +5,7 @@ from scipy import stats
 import latextabs as lt
 
 # Parameters
-used_test = stats.ranksums
+used_test = stats.wilcoxon
 used_p = 0.05
 
 # Load results
@@ -49,7 +49,7 @@ for mid, metric in enumerate(metrics):
             a = subtable[cida]
             for cid, clf in enumerate(classifiers):
                 b = subtable[cid]
-                test = used_test(a, b)
+                test = used_test(a, b, zero_method="zsplit")
                 dependency[cida, cid] = test.pvalue > used_p
 
         print(dependency)
