@@ -49,7 +49,6 @@ class DESIRE(BaseEstimator, ClassifierMixin):
                 for k in range(len(pred)):
                     # negative
                     if pred[k] == local_y[i][k] == 0:
-                        # self.competences[j,i,0] += (self.distance[i][k]) * self.min
                         self.competences[j,i,0] += (self.distance[i][k])
                     # positive
                     elif pred[k] == local_y[i][k] == 1:

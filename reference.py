@@ -24,7 +24,9 @@ classifiers = {
     "SB": StratifiedBagging(ensemble_size=100, oversampler = "None"),
     "OSB": StratifiedBagging(ensemble_size=100, oversampler = "ROS"),
     "KNORAU": StratifiedBagging(ensemble_size=100, oversampler = "None", des="KNORAU"),
+    "OKNORAU": StratifiedBagging(ensemble_size=100, oversampler = "ROS", des="KNORAU"),
     "DESIRE": StratifiedBagging(ensemble_size=100, oversampler = "None", des="DESIRE"),
+    "ODESIRE": StratifiedBagging(ensemble_size=100, oversampler = "ROS", des="DESIRE"),
     # 'SVC': svm.SVC(gamma='scale'),
     # 'DTC': tree.DecisionTreeClassifier(),
     #'MLP': neural_network.MLPClassifier()
