@@ -53,5 +53,5 @@
 		"BAC",
 		"GMEAN"
 	],
-	"folds": 5
+	"folds": 50
 }
