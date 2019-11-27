@@ -48,14 +48,13 @@ for mid, metric in enumerate(metrics):
         subtable_rank = np.zeros((subtable.T.shape))
         for row in range(subtable.T.shape[0]):
             subtable_rank[row] = stats.rankdata(subtable.T[row])
-        print(subtable_rank.T)
         rank1 = np.mean(subtable_rank.T, axis=1)
-
+        # print(rank1)
         # ranks from mean scores
-        rank2 = stats.rankdata(scores, method='average')
+        # rank2 = stats.rankdata(scores, method='average')
 
         # rank1
-        ranks[mid, did] = rank2
+        ranks[mid, did] = rank1
 
         # Get leader and check dependency
         # dependency = np.zeros(len(classifiers)).astype(int)
