@@ -47,7 +47,9 @@
 		"SB",
 		"OSB",
 		"KNORAU",
-		"DESIRE"
+		"OKNORAU",
+		"DESIRE",
+		"ODESIRE"
 	],
 	"metrics": [
 		"BAC",
