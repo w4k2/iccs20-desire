@@ -15,10 +15,11 @@ class DESIRE(BaseEstimator, ClassifierMixin):
     TBA
     """
 
-    def __init__(self, ensemble=[], k=7, random_state=42):
+    def __init__(self, ensemble=[], k=7, random_state=42, mode="correct"):
         self.ensemble = ensemble
         self.random_state = random_state
         self.k = k
+        self.mode=mode
 
     def fit(self, X, y):
         # information about data distribution
@@ -47,17 +48,16 @@ class DESIRE(BaseEstimator, ClassifierMixin):
                 pred = base_classifier.predict(instance)
 
                 for k in range(len(pred)):
-                    # negative
-                    if pred[k] == local_y[i][k] == 0:
-                        self.competences[j,i,0] += (self.distance[i][k])
-                    # positive
-                    elif pred[k] == local_y[i][k] == 1:
-                        self.competences[j,i,1] += (self.distance[i][k]) * self.ir
-                        self.competences[j,i,0] -= (self.distance[i][k]) * self.ir
-                    elif pred[k] == 0 and local_y[i][k] == 1:
-                        self.competences[j,i,0] -= (self.distance[i][k]) * self.ir
-                    elif pred[k] == 1 and local_y[i][k] == 0:
-                        self.competences[j,i,1] += (self.distance[i][k]) * self.ir
+                    if self.mode == "correct":
+                        if pred[k] == local_y[i][k] == 0:
+                            self.competences[j,i,0] += self.distance[i][k]
+                        elif pred[k] == local_y[i][k] == 1:
+                            self.competences[j,i,1] += self.distance[i][k] * self.ir
+                    if self.mode == "wrong":
+                        if pred[k] == 0 and local_y[i][k] == 1:
+                            self.competences[j,i,1] -= self.distance[i][k]
+                        elif pred[k] == 1 and local_y[i][k] == 0:
+                            self.competences[j,i,0] -= self.distance[i][k] * self.ir
 
     def ensemble_support_matrix(self, X):
         """ESM."""
@@ -66,8 +66,6 @@ class DESIRE(BaseEstimator, ClassifierMixin):
     def predict(self, X):
         self.estimate_competence(X)
         esm = self.ensemble_support_matrix(X)
-
-        # multiplying esm by calculated weights
         for i in range(self.competences.shape[0]):
             self.competences[i] = normalize(self.competences[i])
         esm *= self.competences

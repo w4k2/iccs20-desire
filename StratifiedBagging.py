@@ -101,8 +101,12 @@ class StratifiedBagging(BaseEstimator, ClassifierMixin):
             des = KNORAU(pool_classifiers=self.estimators_, random_state=42)
             des.fit(self.X_, self.y_)
             prediction = des.predict(X)
-        elif self.des == "DESIRE":
-            des = DESIRE(ensemble=self.estimators_, random_state=42)
+        elif self.des == "DESIREC":
+            des = DESIRE(ensemble=self.estimators_, random_state=42, mode="correct")
+            des.fit(self.X_, self.y_)
+            prediction = des.predict(X)
+        elif self.des == "DESIREW":
+            des = DESIRE(ensemble=self.estimators_, random_state=42, mode="wrong")
             des.fit(self.X_, self.y_)
             prediction = des.predict(X)
         else:

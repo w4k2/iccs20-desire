@@ -20,13 +20,15 @@ from StratifiedBagging import StratifiedBagging
 # Initialize classifiers
 classifiers = {
     # "GNB": naive_bayes.GaussianNB(),
-    "kNN": neighbors.KNeighborsClassifier(),
-    "SB": StratifiedBagging(ensemble_size=5, oversampler = "None"),
+    # "kNN": neighbors.KNeighborsClassifier(),
+    # "SB": StratifiedBagging(ensemble_size=5, oversampler = "None"),
     "OSB": StratifiedBagging(ensemble_size=5, oversampler = "ROS"),
-    "KNORAU": StratifiedBagging(ensemble_size=5, oversampler = "None", des="KNORAU"),
+    # "KNORAU": StratifiedBagging(ensemble_size=5, oversampler = "None", des="KNORAU"),
     "OKNORAU": StratifiedBagging(ensemble_size=5, oversampler = "ROS", des="KNORAU"),
-    "DESIRE": StratifiedBagging(ensemble_size=5, oversampler = "None", des="DESIRE"),
-    "ODESIRE": StratifiedBagging(ensemble_size=5, oversampler = "ROS", des="DESIRE"),
+    "TBAC": StratifiedBagging(ensemble_size=5, oversampler = "None", des="DESIREC"),
+    "OTBAC": StratifiedBagging(ensemble_size=5, oversampler = "ROS", des="DESIREC"),
+    "TBAW": StratifiedBagging(ensemble_size=5, oversampler = "None", des="DESIREW"),
+    "OTBAW": StratifiedBagging(ensemble_size=5, oversampler = "ROS", des="DESIREW"),
     # 'SVC': svm.SVC(gamma='scale'),
     # 'DTC': tree.DecisionTreeClassifier(),
     #'MLP': neural_network.MLPClassifier()
