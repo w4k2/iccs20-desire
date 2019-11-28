@@ -43,13 +43,12 @@
 		"ecoli-0-4-6_vs_5"
 	],
 	"classifiers": [
-		"kNN",
-		"SB",
 		"OSB",
-		"KNORAU",
 		"OKNORAU",
-		"TBA",
-		"OTBA"
+		"TBAC",
+		"OTBAC",
+		"TBAW",
+		"OTBAW"
 	],
 	"metrics": [
 		"BAC",
