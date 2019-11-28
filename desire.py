@@ -53,6 +53,10 @@ class DESIRE(BaseEstimator, ClassifierMixin):
                             self.competences[j,i,0] += self.distance[i][k]
                         elif pred[k] == local_y[i][k] == 1:
                             self.competences[j,i,1] += self.distance[i][k] * self.ir
+                        elif pred[k] == 0 and local_y[i][k] == 1:
+                            self.competences[j,i,1] -= self.distance[i][k]
+                        elif pred[k] == 1 and local_y[i][k] == 0:
+                            self.competences[j,i,0] -= self.distance[i][k] * self.ir
                     if self.mode == "wrong":
                         if pred[k] == 0 and local_y[i][k] == 1:
                             self.competences[j,i,1] -= self.distance[i][k]
