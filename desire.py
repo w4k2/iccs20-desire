@@ -7,7 +7,7 @@ from sklearn.neighbors import KNeighborsClassifier
 import numpy as np
 from sklearn.metrics import accuracy_score, balanced_accuracy_score
 import sys
-from sklearn.preprocessing import normalize
+from sklearn.preprocessing import MinMaxScaler
 np.set_printoptions(threshold=sys.maxsize)
 
 class DESIRE(BaseEstimator, ClassifierMixin):
@@ -51,23 +51,23 @@ class DESIRE(BaseEstimator, ClassifierMixin):
                 for k in range(len(pred)):
                     if self.mode == "whole":
                         if pred[k] == local_y[i][k] == 0:
-                            self.competences[j,i,0] += self.distance[i][k] * self.w
+                            self.competences[j,i,0] = (self.competences[j,i,0] * self.w) + self.distance[i][k]
                         elif pred[k] == local_y[i][k] == 1:
-                            self.competences[j,i,1] += self.distance[i][k] * self.ir  * self.w
+                            self.competences[j,i,1] = (self.competences[j,i,1] * self.w) + self.distance[i][k] * self.ir
                         elif pred[k] == 0 and local_y[i][k] == 1:
-                            self.competences[j,i,1] -= self.distance[i][k]  * self.w
+                            self.competences[j,i,1] = (self.competences[j,i,1] * self.w) - self.distance[i][k]
                         elif pred[k] == 1 and local_y[i][k] == 0:
-                            self.competences[j,i,0] -= self.distance[i][k] * self.ir  * self.w
-                    if self.mode == "correct":
-                        if pred[k] == local_y[i][k] == 0:
-                            self.competences[j,i,0] += self.distance[i][k]
-                        elif pred[k] == local_y[i][k] == 1:
-                            self.competences[j,i,1] += self.distance[i][k] * self.ir
-                    if self.mode == "wrong":
-                        if pred[k] == 0 and local_y[i][k] == 1:
-                            self.competences[j,i,1] -= self.distance[i][k]
-                        elif pred[k] == 1 and local_y[i][k] == 0:
-                            self.competences[j,i,0] -= self.distance[i][k] * self.ir
+                            self.competences[j,i,0] = (self.competences[j,i,0] * self.w) - self.distance[i][k] * self.ir
+                    # elif self.mode == "correct":
+                    #     if pred[k] == local_y[i][k] == 0:
+                    #         self.competences[j,i,0] = (self.competences[j,i,0] * self.w) + self.distance[i][k]
+                    #     elif pred[k] == local_y[i][k] == 1:
+                    #         self.competences[j,i,1] = (self.competences[j,i,1] * self.w) + self.distance[i][k] * self.ir
+                    # elif self.mode == "wrong":
+                    #     if pred[k] == 0 and local_y[i][k] == 1:
+                    #         self.competences[j,i,1] = (self.competences[j,i,1] * self.w) - self.distance[i][k]
+                    #     elif pred[k] == 1 and local_y[i][k] == 0:
+                    #         self.competences[j,i,0] = (self.competences[j,i,0] * self.w) - self.distance[i][k] * self.ir
 
     def ensemble_support_matrix(self, X):
         """ESM."""
@@ -77,10 +77,11 @@ class DESIRE(BaseEstimator, ClassifierMixin):
         self.estimate_competence(X)
         esm = self.ensemble_support_matrix(X)
         for i in range(self.competences.shape[0]):
-            self.competences[i] = normalize(self.competences[i])
+            scaler = MinMaxScaler()
+            self.competences[i] = scaler.fit_transform(self.competences[i])
         esm *= self.competences
 
-        average_support = np.mean(esm, axis=0)
+        average_support = np.sum(esm, axis=0)
         prediction = np.argmax(average_support, axis=1)
 
         return prediction
