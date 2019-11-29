@@ -27,12 +27,14 @@ gmean = geometric_mean_score
 
 class StratifiedBagging(BaseEstimator, ClassifierMixin):
 
-    def __init__(self, ensemble_size=20, oversampler = "None", des="None"):
+    def __init__(self, ensemble_size=20, oversampler = "None", des="None", w = 1):
         """Initialization."""
         self.ensemble_size = ensemble_size
         self.oversampler = oversampler
         self.des = des
         self.estimators_ = []
+        self.w = w
+
 
     def set_base_clf(self, base_clf=KNeighborsClassifier()):
         """Establish base classifier."""
@@ -100,12 +102,16 @@ class StratifiedBagging(BaseEstimator, ClassifierMixin):
             des = KNORAU(pool_classifiers=self.estimators_, random_state=42)
             des.fit(self.X_, self.y_)
             prediction = des.predict(X)
+        elif self.des == "DESIRE":
+            des = DESIRE(ensemble=self.estimators_, random_state=42, mode="whole", w=self.w)
+            des.fit(self.X_, self.y_)
+            prediction = des.predict(X)
         elif self.des == "DESIREC":
-            des = DESIRE(ensemble=self.estimators_, random_state=42, mode="correct")
+            des = DESIRE(ensemble=self.estimators_, random_state=42, mode="correct", w=self.w)
             des.fit(self.X_, self.y_)
             prediction = des.predict(X)
         elif self.des == "DESIREW":
-            des = DESIRE(ensemble=self.estimators_, random_state=42, mode="wrong")
+            des = DESIRE(ensemble=self.estimators_, random_state=42, mode="wrong", w=self.w)
             des.fit(self.X_, self.y_)
             prediction = des.predict(X)
         else:

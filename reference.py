@@ -22,13 +22,15 @@ classifiers = {
     # "GNB": naive_bayes.GaussianNB(),
     #"kNN": neighbors.KNeighborsClassifier(),
     #"SB": StratifiedBagging(ensemble_size=5, oversampler = "None"),
-    "OSB": StratifiedBagging(ensemble_size=30, oversampler = "ROS"),
+    "OSB": StratifiedBagging(ensemble_size=5, oversampler = "ROS"),
     #"KNORAU": StratifiedBagging(ensemble_size=5, oversampler = "None", des="KNORAU"),
-    "OKNORAU": StratifiedBagging(ensemble_size=30, oversampler = "ROS", des="KNORAU"),
-    "TBAC": StratifiedBagging(ensemble_size=30, oversampler = "None", des="DESIREC"),
-    "OTBAC": StratifiedBagging(ensemble_size=30, oversampler = "ROS", des="DESIREC"),
-    "TBAW": StratifiedBagging(ensemble_size=30, oversampler = "None", des="DESIREW"),
-    "OTBAW": StratifiedBagging(ensemble_size=30, oversampler = "ROS", des="DESIREW"),
+    "OKNORAU": StratifiedBagging(ensemble_size=5, oversampler = "ROS", des="KNORAU"),
+    "TBA.01": StratifiedBagging(ensemble_size=5, oversampler = "None", des="DESIRE", w = 0.01),
+    "OTBA.01": StratifiedBagging(ensemble_size=5, oversampler = "ROS", des="DESIRE", w = 0.01),
+    "TBA.1": StratifiedBagging(ensemble_size=5, oversampler = "None", des="DESIRE", w = 0.1),
+    "OTBA.1": StratifiedBagging(ensemble_size=5, oversampler = "ROS", des="DESIRE", w = 0.1),
+    "TBA.2": StratifiedBagging(ensemble_size=5, oversampler = "None", des="DESIRE", w = 0.2),
+    "OTBA.2": StratifiedBagging(ensemble_size=5, oversampler = "ROS", des="DESIRE", w = 0.2),
     # 'SVC': svm.SVC(gamma='scale'),
     # 'DTC': tree.DecisionTreeClassifier(),
     #'MLP': neural_network.MLPClassifier()
@@ -69,7 +71,7 @@ print(
     "# Experiment on %i datasets, with %i estimators using %i metrics."
     % (len(datasets), len(classifiers), len(used_metrics))
 )
-rescube = np.zeros((len(datasets), len(classifiers), len(used_metrics), 50))
+rescube = np.zeros((len(datasets), len(classifiers), len(used_metrics), 5))
 
 # Iterate datasets
 for i, dataset in enumerate(tqdm(datasets, desc="DBS", ascii=True)):
@@ -77,9 +79,9 @@ for i, dataset in enumerate(tqdm(datasets, desc="DBS", ascii=True)):
     X, y, dbname = dataset
 
     # Folds
-    skf = model_selection.RepeatedStratifiedKFold(n_splits=5, n_repeats=10, random_state=42)
+    skf = model_selection.RepeatedStratifiedKFold(n_splits=5, n_repeats=1, random_state=42)
     for fold, (train, test) in enumerate(
-        tqdm(skf.split(X, y), desc="FLD", ascii=True, total=50)
+        tqdm(skf.split(X, y), desc="FLD", ascii=True, total=5)
     ):
         X_train, X_test = X[train], X[test]
         y_train, y_test = y[train], y[test]
@@ -102,7 +104,7 @@ with open("results/legend.json", "w") as outfile:
             "datasets": [obj[2] for obj in datasets],
             "classifiers": list(classifiers.keys()),
             "metrics": list(used_metrics.keys()),
-            "folds": 50,
+            "folds": 5,
         },
         outfile,
         indent="\t",

@@ -15,10 +15,11 @@ class DESIRE(BaseEstimator, ClassifierMixin):
     TBA
     """
 
-    def __init__(self, ensemble=[], k=7, random_state=42, mode="correct"):
+    def __init__(self, ensemble=[], k=7, random_state=42, w=0.1, mode="whole"):
         self.ensemble = ensemble
         self.random_state = random_state
         self.k = k
+        self.w = w
         self.mode=mode
 
     def fit(self, X, y):
@@ -48,6 +49,15 @@ class DESIRE(BaseEstimator, ClassifierMixin):
                 pred = base_classifier.predict(instance)
 
                 for k in range(len(pred)):
+                    if self.mode == "whole":
+                        if pred[k] == local_y[i][k] == 0:
+                            self.competences[j,i,0] += self.distance[i][k] * self.w
+                        elif pred[k] == local_y[i][k] == 1:
+                            self.competences[j,i,1] += self.distance[i][k] * self.ir  * self.w
+                        elif pred[k] == 0 and local_y[i][k] == 1:
+                            self.competences[j,i,1] -= self.distance[i][k]  * self.w
+                        elif pred[k] == 1 and local_y[i][k] == 0:
+                            self.competences[j,i,0] -= self.distance[i][k] * self.ir  * self.w
                     if self.mode == "correct":
                         if pred[k] == local_y[i][k] == 0:
                             self.competences[j,i,0] += self.distance[i][k]
