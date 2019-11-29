@@ -17,7 +17,6 @@ import sys, os
 from sklearn.naive_bayes import GaussianNB
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.neighbors import KNeighborsClassifier
-from skmultiflow.trees import HoeffdingTree
 from deslib.des import KNORAU
 from desire import DESIRE
 
