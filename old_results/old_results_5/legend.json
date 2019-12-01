@@ -45,10 +45,10 @@
 	"classifiers": [
 		"OSB",
 		"OKNORAU",
-		"TBAC",
-		"TBAW",
-		"OTBAC",
-		"OTBAW"
+		"OTBA.1",
+		"OTBA.2",
+		"OTBA.4",
+		"OTBA.6"
 	],
 	"metrics": [
 		"BAC",

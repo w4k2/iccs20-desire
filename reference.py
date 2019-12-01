@@ -14,19 +14,23 @@ from sklearn import base
 from sklearn import model_selection
 from sklearn import metrics
 from sklearn import preprocessing
-from imblearn.metrics import geometric_mean_score
+# from imblearn.metrics import geometric_mean_score
 from StratifiedBagging import StratifiedBagging
+from metrics import bac, f_score, geometric_mean_score, precision, recall
 
 # Initialize classifiers
 classifiers = {
     # "GNB": naive_bayes.GaussianNB(),
-    "kNN": neighbors.KNeighborsClassifier(),
-    "SB": StratifiedBagging(ensemble_size=5, oversampler = "None"),
+    #"kNN": neighbors.KNeighborsClassifier(),
+    #"SB": StratifiedBagging(ensemble_size=30, oversampler = "None"),
     "OSB": StratifiedBagging(ensemble_size=5, oversampler = "ROS"),
-    "KNORAU": StratifiedBagging(ensemble_size=5, oversampler = "None", des="KNORAU"),
+    # "KNORAU": StratifiedBagging(ensemble_size=30, oversampler = "None", des="KNORAU"),
     "OKNORAU": StratifiedBagging(ensemble_size=5, oversampler = "ROS", des="KNORAU"),
-    "TBA.4": StratifiedBagging(ensemble_size=5, oversampler = "None", des="DESIRE", w = 0.4),
-    "OTBA.4": StratifiedBagging(ensemble_size=5, oversampler = "ROS", des="DESIRE", w = 0.4),
+    # "TBA.4": StratifiedBagging(ensemble_size=30, oversampler = "None", des="DESIRE", w = 0.4),
+    "TBAC": StratifiedBagging(ensemble_size=5, oversampler = "None", des="DESIREC"),
+    "TBAW": StratifiedBagging(ensemble_size=5, oversampler = "None", des="DESIREW"),
+    "OTBAC": StratifiedBagging(ensemble_size=5, oversampler = "ROS", des="DESIREC"),
+    "OTBAW": StratifiedBagging(ensemble_size=5, oversampler = "ROS", des="DESIREW"),
     # 'SVC': svm.SVC(gamma='scale'),
     # 'DTC': tree.DecisionTreeClassifier(),
     #'MLP': neural_network.MLPClassifier()
@@ -35,19 +39,19 @@ classifiers = {
 # Choose metrics
 used_metrics = {
     # "ACC": metrics.accuracy_score,
-    "BAC": metrics.balanced_accuracy_score,
+    "BAC": bac,
     #'APC': metrics.average_precision_score,
     #'BSL': metrics.brier_score_loss,
     #'CKS': metrics.cohen_kappa_score,
-    # 'F1': metrics.f1_score,
+    'F1': f_score,
     #'HaL': metrics.hamming_loss,
     #'HiL': metrics.hinge_loss,
     #'JSS': metrics.jaccard_similarity_score,
     #'LoL': metrics.log_loss,
     #'MaC': metrics.matthews_corrcoef,
-    #'PS': metrics.precision_score,
-    #'RCS': metrics.recall_score,
-    #'AUC': metrics.roc_auc_score,
+    'PS': precision,
+    'RCS':recall,
+    'AUC': metrics.roc_auc_score,
     #'ZOL': metrics.zero_one_loss,
     'GMEAN': geometric_mean_score,
 }
