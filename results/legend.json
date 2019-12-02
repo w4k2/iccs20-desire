@@ -53,8 +53,8 @@
 	"metrics": [
 		"BAC",
 		"F1",
-		"PS",
-		"RCS",
+		"Precision",
+		"Recall",
 		"AUC",
 		"GMEAN"
 	],
