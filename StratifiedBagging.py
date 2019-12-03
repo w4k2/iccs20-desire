@@ -19,6 +19,7 @@ from sklearn.tree import DecisionTreeClassifier
 from sklearn.neighbors import KNeighborsClassifier
 from deslib.des import KNORAU
 from desire import DESIRE
+from sklearn.neural_network import MLPClassifier
 
 ba = balanced_accuracy_score
 f1 = f1_score
@@ -36,7 +37,7 @@ class StratifiedBagging(BaseEstimator, ClassifierMixin):
         self.w = w
 
 
-    def set_base_clf(self, base_clf=DecisionTreeClassifier()):
+    def set_base_clf(self, base_clf=MLPClassifier()):
         """Establish base classifier."""
         self._base_clf = base_clf
 
