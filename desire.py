@@ -71,9 +71,9 @@ class DESIRE(BaseEstimator, ClassifierMixin):
                     #         self.competences[j,i,0] = (self.competences[j,i,0]) - (self.distance[i][k] * self.ir * self.w)
                     elif self.mode == "correct":
                         if pred[k] == local_y[i][k] == 0:
-                            self.competences[j,i,0] = (self.competences[j,i,0]) + (self.distance[i][k]# * self.min)
+                            self.competences[j,i,0] = (self.competences[j,i,0]) + self.distance[i][k]# * self.min)
                         elif pred[k] == local_y[i][k] == 1:
-                            self.competences[j,i,1] = (self.competences[j,i,1]) + (self.distance[i][k]# * self.maj)
+                            self.competences[j,i,1] = (self.competences[j,i,1]) + self.distance[i][k]# * self.maj)
                     elif self.mode == "wrong":
                         if pred[k] == local_y[i][k] == 0:
                            self.competences[j,i,0] = (self.competences[j,i,0]) + self.distance[i][k]# * self.min)
