@@ -37,7 +37,7 @@ class StratifiedBagging(BaseEstimator, ClassifierMixin):
         self.w = w
 
 
-    def set_base_clf(self, base_clf=DecisionTreeClassifier()):
+    def set_base_clf(self, base_clf=GaussianNB()):
         """Establish base classifier."""
         self._base_clf = base_clf
 

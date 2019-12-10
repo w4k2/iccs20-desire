@@ -20,7 +20,7 @@ from metrics import bac, f_score, geometric_mean_score, precision, recall
 
 # Initialize classifiers
 classifiers = {
-    # "GNB": naive_bayes.GaussianNB(),
+    "GNB": naive_bayes.GaussianNB(),
     #"kNN": neighbors.KNeighborsClassifier(),
     #"SB": StratifiedBagging(ensemble_size=30, oversampler = "None"),
     "OSB": StratifiedBagging(ensemble_size=50, oversampler = "ROS"),
@@ -28,8 +28,8 @@ classifiers = {
     "OKNORAU": StratifiedBagging(ensemble_size=50, oversampler = "ROS", des="KNORAU"),
     # "TBA.4": StratifiedBagging(ensemble_size=30, oversampler = "None", des="DESIRE", w = 0.4),
     "TBAC": StratifiedBagging(ensemble_size=50, oversampler = "None", des="DESIREC"),
-    "TBAW": StratifiedBagging(ensemble_size=50, oversampler = "None", des="DESIREW"),
     "OTBAC": StratifiedBagging(ensemble_size=50, oversampler = "ROS", des="DESIREC"),
+    "TBAW": StratifiedBagging(ensemble_size=50, oversampler = "None", des="DESIREW"),
     "OTBAW": StratifiedBagging(ensemble_size=50, oversampler = "ROS", des="DESIREW"),
     # 'SVC': svm.SVC(gamma='scale'),
     # 'DTC': tree.DecisionTreeClassifier(),
