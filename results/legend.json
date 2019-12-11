@@ -43,11 +43,12 @@
 		"glass2"
 	],
 	"classifiers": [
+		"GNB",
 		"OSB",
 		"OKNORAU",
 		"TBAC",
-		"TBAW",
 		"OTBAC",
+		"TBAW",
 		"OTBAW"
 	],
 	"metrics": [

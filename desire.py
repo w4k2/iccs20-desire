@@ -31,8 +31,8 @@ class DESIRE(BaseEstimator, ClassifierMixin):
             self.min = min/maj
         self.maj = 1-self.min
         self.ir = self.maj/self.min
-        print(self.min)
-        print(self.maj)
+        #print(self.min)
+        #print(self.maj)
 
         self.X_dsel = X
         self.y_dsel = y
