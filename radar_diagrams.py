@@ -87,11 +87,20 @@ kNN5 = pd.DataFrame({
     'BAC': [1.659,5.012,4.841,2.780,5.024,3.415,5.268],
 })
 
+kNN50 = pd.DataFrame({
+    'group': ['kNN', 'OSB', 'OKNORAU', 'TBAC', 'OTBAC', 'TBAW', 'OTBAW'],
+    'F1 score': [3.207,3.695,2.671,2.159,5.134,4.134],
+    'Precision': [2.720,3.085,4.232,3.085,4.524,3.354],
+    'Recall': [4.854,4.476,1.293,2.171,3.756,4.451],
+    'Gmean': [4.476,4.354,1.427,2.085,4.354,4.305],
+    'BAC': [4.476,4.354,1.427,2.085,4.354,4.305],
+})
+
 
 # ------- PART 1: Create background
 
 # number of variable
-df = kNN5
+df = kNN50
 categories = list(df)[1:]
 N = len(categories)
 
@@ -174,7 +183,7 @@ ax.plot(angles, values, linewidth=1, linestyle='solid', label="OTBAW", color='#e
 # Add legend
 plt.legend(loc="lower center", ncol=4, columnspacing=1, frameon=False, bbox_to_anchor=(0.5, -0.2))
 # Add a title
-plt.title("Mean ranks for kNN, pool size = 5", size=11, y=1.08)
+plt.title("Mean ranks for kNN, pool size = 50", size=11, y=1.08)
 
 
-plt.savefig("kNN5.eps", bbox_inches='tight')
+plt.savefig("kNN50.eps", bbox_inches='tight')
