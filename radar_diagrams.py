@@ -80,18 +80,18 @@ CART50 = pd.DataFrame({
 
 kNN5 = pd.DataFrame({
     'group': ['kNN', 'OSB', 'OKNORAU', 'TBAC', 'OTBAC', 'TBAW', 'OTBAW'],
-    'F1 score': [3.000,3.451,4.061,5.220,5.415,3.366,3.488],
-    'Precision': [3.317,5.720,5.622,4.439,4.293,2.244,2.366],
-    'Recall': [2.829,2.354,3.134,3.707,4.317,5.488,6.171],
-    'Gmean': [2.634,2.476,3.207,4.122,4.707,5.000,5.854],
-    'BAC': [2.561,2.671,3.280,4.244,4.854,4.756,5.634],
+    'F1 score': [3.585,4.305,3.476,4.549,4.390,3.744,3.951],
+    'Precision': [5.317,3.963,3.049,4.976,3.659,3.878,3.159],
+    'Recall': [1.427,5.232,5.366,2.463,4.939,3.305,5.268],
+    'Gmean': [1.537,5.061,4.866,2.720,5.110,3.427,5.280],
+    'BAC': [1.659,5.012,4.841,2.780,5.024,3.415,5.268],
 })
 
 
 # ------- PART 1: Create background
 
 # number of variable
-df = CART50
+df = kNN5
 categories = list(df)[1:]
 N = len(categories)
 
@@ -174,7 +174,7 @@ ax.plot(angles, values, linewidth=1, linestyle='solid', label="OTBAW", color='#e
 # Add legend
 plt.legend(loc="lower center", ncol=4, columnspacing=1, frameon=False, bbox_to_anchor=(0.5, -0.2))
 # Add a title
-plt.title("Mean ranks for CART, pool size = 50", size=11, y=1.08)
+plt.title("Mean ranks for kNN, pool size = 5", size=11, y=1.08)
 
 
-plt.savefig("CART50.eps", bbox_inches='tight')
+plt.savefig("kNN5.eps", bbox_inches='tight')
