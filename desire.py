@@ -25,14 +25,13 @@ class DESIRE(BaseEstimator, ClassifierMixin):
     def fit(self, X, y):
         # information about data distribution
         maj, min = np.bincount(y.astype(int))
-        if maj < min:
-            self.min = maj/min
+        wholeSet = min + maj
+        if maj > min:
+            self.min = maj/wholeSet
         else:
-            self.min = min/maj
+            self.min = min/wholeSet
         self.maj = 1-self.min
         self.ir = self.maj/self.min
-        #print(self.min)
-        #print(self.maj)
 
         self.X_dsel = X
         self.y_dsel = y
@@ -71,18 +70,18 @@ class DESIRE(BaseEstimator, ClassifierMixin):
                     #         self.competences[j,i,0] = (self.competences[j,i,0]) - (self.distance[i][k] * self.ir * self.w)
                     elif self.mode == "correct":
                         if pred[k] == local_y[i][k] == 0:
-                            self.competences[j,i,0] = (self.competences[j,i,0]) + self.distance[i][k]# * self.min)
+                            self.competences[j,i,0] = (self.competences[j,i,0]) + (self.distance[i][k] * self.min)
                         elif pred[k] == local_y[i][k] == 1:
-                            self.competences[j,i,1] = (self.competences[j,i,1]) + self.distance[i][k]# * self.maj)
+                            self.competences[j,i,1] = (self.competences[j,i,1]) + (self.distance[i][k] * self.maj)
                     elif self.mode == "wrong":
                         if pred[k] == local_y[i][k] == 0:
-                           self.competences[j,i,0] = (self.competences[j,i,0]) + self.distance[i][k]# * self.min)
+                           self.competences[j,i,0] = (self.competences[j,i,0]) + (self.distance[i][k] * self.min)
                         elif pred[k] == local_y[i][k] == 1:
-                           self.competences[j,i,1] = (self.competences[j,i,1]) + self.distance[i][k]# * self.maj)
+                           self.competences[j,i,1] = (self.competences[j,i,1]) + (self.distance[i][k] * self.maj)
                         elif pred[k] == 0 and local_y[i][k] == 1:
-                            self.competences[j,i,1] = (self.competences[j,i,1]) - self.distance[i][k]# * self.min)
+                            self.competences[j,i,1] = (self.competences[j,i,1]) - (self.distance[i][k] * self.min)
                         elif pred[k] == 1 and local_y[i][k] == 0:
-                            self.competences[j,i,0] = (self.competences[j,i,0]) - self.distance[i][k]# * self.maj)
+                            self.competences[j,i,0] = (self.competences[j,i,0]) - (self.distance[i][k] * self.maj)
 
     def ensemble_support_matrix(self, X):
         """ESM."""

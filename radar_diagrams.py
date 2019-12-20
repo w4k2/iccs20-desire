@@ -114,11 +114,29 @@ kNN50 = pd.DataFrame({
     'BAC': [1.634,5.329,5.207,3.524,3.890,4.354,4.061],
 })
 
+CART5s = pd.DataFrame({
+    'group': ['CART', 'OSB', 'OKNORAU', 'TBAC', 'OTBAC', 'TBAW', 'OTBAW'],
+    'F1 score': [3.415,3.768,3.915,5.622,5.768,2.524,2.988],
+    'Precision': [3.683,4.659,4.878,5.793,5.256,1.793,1.939],
+    'Recall': [3.146,2.488,2.561,3.793,4.110,5.817,6.085],
+    'Gmean': [3.049,2.598,2.744,4.280,4.817,5.183,5.329],
+    'BAC': [3.073,2.537,2.683,4.744,5.110,4.695,5.159],
+})
+
+CART15s = pd.DataFrame({
+    'group': ['CART', 'OSB', 'OKNORAU', 'TBAC', 'OTBAC', 'TBAW', 'OTBAW'],
+    'F1 score': [3.793,4.134,4.585,5.366,5.610,1.927,2.585],
+    'Precision': [3.939,5.463,5.695,4.805,4.805,1.512,1.780],
+    'Recall': [2.756,2.488,2.854,3.683,4.195,5.805,6.220],
+    'Gmean': [2.695,2.646,3.146,4.585,4.951,4.634,5.341],
+    'BAC': [2.720,2.829,3.329,4.707,5.098,4.268,5.049],
+})
+
 
 # ------- PART 1: Create background
 
 # number of variable
-df = kNN15
+df = CART15s
 categories = list(df)[1:]
 N = len(categories)
 
@@ -201,7 +219,7 @@ ax.plot(angles, values, linewidth=1, linestyle='solid', label="OTBAW", color='#e
 # Add legend
 plt.legend(loc="lower center", ncol=4, columnspacing=1, frameon=False, bbox_to_anchor=(0.5, -0.2))
 # Add a title
-plt.title("Mean ranks for kNN, pool size = 15", size=11, y=1.08)
+plt.title("Mean ranks for CART, pool size = 15", size=11, y=1.08)
 
 
-plt.savefig("kNN15.eps", bbox_inches='tight')
+plt.savefig("CART15s.eps", bbox_inches='tight')

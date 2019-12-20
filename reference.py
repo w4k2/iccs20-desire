@@ -22,16 +22,16 @@ from sklearn.tree import DecisionTreeClassifier
 # Initialize classifiers
 classifiers = {
     # "GNB": naive_bayes.GaussianNB(),
-    # "CART": DecisionTreeClassifier(random_state=42),
-    "kNN": neighbors.KNeighborsClassifier(),
+    "CART": DecisionTreeClassifier(random_state=42),
+    # "kNN": neighbors.KNeighborsClassifier(),
     #"SB": StratifiedBagging(ensemble_size=30, oversampler = "None"),
-    "OSB": StratifiedBagging(ensemble_size=15, oversampler = "ROS"),
+    "OSB": StratifiedBagging(ensemble_size=50, oversampler = "ROS"),
     # "KNORAU": StratifiedBagging(ensemble_size=30, oversampler = "None", des="KNORAU"),
-    "OKNORAU": StratifiedBagging(ensemble_size=15, oversampler = "ROS", des="KNORAU"),
-    "TBAC": StratifiedBagging(ensemble_size=15, oversampler = "None", des="DESIREC"),
-    "OTBAC": StratifiedBagging(ensemble_size=15, oversampler = "ROS", des="DESIREC"),
-    "TBAW": StratifiedBagging(ensemble_size=15, oversampler = "None", des="DESIREW"),
-    "OTBAW": StratifiedBagging(ensemble_size=15, oversampler = "ROS", des="DESIREW"),
+    "OKNORAU": StratifiedBagging(ensemble_size=50, oversampler = "ROS", des="KNORAU"),
+    "TBAC": StratifiedBagging(ensemble_size=50, oversampler = "None", des="DESIREC"),
+    "OTBAC": StratifiedBagging(ensemble_size=50, oversampler = "ROS", des="DESIREC"),
+    "TBAW": StratifiedBagging(ensemble_size=50, oversampler = "None", des="DESIREW"),
+    "OTBAW": StratifiedBagging(ensemble_size=50, oversampler = "ROS", des="DESIREW"),
 }
 
 # Choose metrics
