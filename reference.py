@@ -21,8 +21,8 @@ from sklearn.tree import DecisionTreeClassifier
 
 # Initialize classifiers
 classifiers = {
-    # "GNB": naive_bayes.GaussianNB(),
-    "CART": DecisionTreeClassifier(random_state=42),
+    "GNB": naive_bayes.GaussianNB(),
+    # "CART": DecisionTreeClassifier(random_state=42),
     # "kNN": neighbors.KNeighborsClassifier(),
     #"SB": StratifiedBagging(ensemble_size=30, oversampler = "None"),
     "OSB": StratifiedBagging(ensemble_size=50, oversampler = "ROS"),
