@@ -132,11 +132,20 @@ CART15s = pd.DataFrame({
     'BAC': [2.720,2.829,3.329,4.707,5.098,4.268,5.049],
 })
 
+CART50s = pd.DataFrame({
+    'group': ['CART', 'OSB', 'OKNORAU', 'TBAC', 'OTBAC', 'TBAW', 'OTBAW'],
+    'F1 score': [4.073,4.256,4.817,5.244,5.537,1.951,2.122],
+    'Precision': [4.098,5.793,5.695,4.585,4.463,1.634,1.732],
+    'Recall': [2.732,2.280,3.061,3.610,4.146,5.829,6.341],
+    'Gmean': [2.951,2.793,3.476,4.756,5.244,4.146,4.634],
+    'BAC': [3.000,2.915,3.598,4.976,5.366,3.805,4.341],
+})
+
 
 # ------- PART 1: Create background
 
 # number of variable
-df = CART15s
+df = CART50s
 categories = list(df)[1:]
 N = len(categories)
 
@@ -219,7 +228,7 @@ ax.plot(angles, values, linewidth=1, linestyle='solid', label="OTBAW", color='#e
 # Add legend
 plt.legend(loc="lower center", ncol=4, columnspacing=1, frameon=False, bbox_to_anchor=(0.5, -0.2))
 # Add a title
-plt.title("Mean ranks for CART, pool size = 15", size=11, y=1.08)
+plt.title("Mean ranks for CART, pool size = 50", size=11, y=1.08)
 
 
-plt.savefig("CART15s.eps", bbox_inches='tight')
+plt.savefig("CART50s.eps", bbox_inches='tight')
