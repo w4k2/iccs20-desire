@@ -43,7 +43,7 @@
 		"glass2"
 	],
 	"classifiers": [
-		"CART",
+		"GNB",
 		"OSB",
 		"OKNORAU",
 		"TBAC",
