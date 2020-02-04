@@ -2,6 +2,10 @@ import matplotlib.pyplot as plt
 import pandas as pd
 from math import pi
 import numpy as np
+from matplotlib import rcParams
+
+# Set plot params
+rcParams["font.family"] = "monospace"
 
 # Set data
 
@@ -221,16 +225,19 @@ CART50s = pd.DataFrame({
     'BAC': [3.000,2.915,3.598,4.976,5.366,3.805,4.341],
 })
 
+colors = [(0, 0, 0), (0, 0, 0), (0, 0, 0), (0, 0, 0.9), (0, 0, 0.9), (0.9, 0, 0), (0.9, 0, 0)]
+ls = ["-", "--", ":", "-", "--", "-", "--"]
+# lw = [1, 1, 8, 1, 4]
+lw = [1, 1, 1, 1, 1, 1, 1]
 
 # ------- PART 1: Create background
 
 # number of variable
-df = GNB50
+df = KNN50s
 pool_size = "50"
 categories = list(df)[1:]
 N = len(categories)
 
-# What will be the angle of each axis in the plot? (we divide the plot / number of variable)
 angles = [n / float(N) * 2 * pi for n in range(N)]
 angles += angles[:1]
 
@@ -241,14 +248,42 @@ ax = plt.subplot(111, polar=True)
 ax.set_theta_offset(pi / 2)
 ax.set_theta_direction(-1)
 
+# No shitty border
+ax.spines["polar"].set_visible(False)
+
 # Draw one axe per variable + add labels labels yet
-plt.xticks(angles[:-1], categories)
+plt.xticks(angles, categories)
 
-for label in ax.get_xticklabels():
-    label.set_rotation(120)
+# Adding plots
+for i in range(7):
+    values = df.loc[i].drop("group").values.flatten().tolist()
+    values += values[:1]
+    print(values)
+    values = [float(i) for i in values]
+    ax.plot(
+        angles, values, label=df.iloc[i, 0], c=colors[i], ls=ls[i], lw=lw[i],
+    )
 
-# Draw ylabels
-ax.set_rlabel_position(0)
+# Add legend
+plt.legend(
+    loc="lower center",
+    ncol=4,
+    columnspacing=1,
+    frameon=False,
+    bbox_to_anchor=(0.5, -0.15),
+    fontsize=6,
+)
+
+# Add a grid
+plt.grid(ls=":", c=(0.7, 0.7, 0.7))
+
+# Add a title
+plt.title("Mean ranks for %s, pool size = %s" % (df.iloc[0,0], pool_size), size=8, y=1.08, fontfamily="serif")
+# plt.title("%s %s" % (clfs[j], parameter_name), size=8, y=1.08, fontfamily="serif")
+plt.tight_layout()
+
+# Draw labels
+a = np.linspace(0, 1, 8)
 plt.yticks(
         # [0.45,0.50, 0.55, 0.60, 0.65, 0.70, 0.75, 0.8, 0.85, 0.9],
         # ["45%","50%", "55%", "60%", "65%", "70%", "75%", "80%", "85%", "90%"],
@@ -257,58 +292,51 @@ plt.yticks(
         fontsize=6,
     )
 plt.ylim(0.0, 7.0)
+plt.gcf().set_size_inches(4, 3.5)
+plt.gcf().canvas.draw()
+angles = np.rad2deg(angles)
 
+ax.set_rlabel_position((angles[0] + angles[1]) / 2)
 
+har = [(a >= 90) * (a <= 270) for a in angles]
 
-# ------- PART 2: Add plots
+for z, (label, angle) in enumerate(zip(ax.get_xticklabels(), angles)):
+    x, y = label.get_position()
+    print(label, angle)
+    lab = ax.text(
+        x, y, label.get_text(), transform=label.get_transform(), fontsize=6,
+    )
+    lab.set_rotation(angle)
 
-# Plot each individual = each line of the data
-# I don't do a loop, because plotting more than 3 groups makes the chart unreadable
+    if har[z]:
+        lab.set_rotation(180 - angle)
+    else:
+        lab.set_rotation(-angle)
+    lab.set_verticalalignment("center")
+    lab.set_horizontalalignment("center")
+    lab.set_rotation_mode("anchor")
 
-# Ind1
-values = df.loc[0].drop('group').values.flatten().tolist()
-values += values[:1]
-# ax.fill(angles, values, linewidth=1, linestyle='solid', alpha=0.03, color="#704613")
-ax.plot(angles, values, linewidth=1, linestyle='solid', label=df.iloc[0,0], color="#704613")
-# ax.fill(angles, values, 'b', alpha=0.1)
+for z, (label, angle) in enumerate(zip(ax.get_yticklabels(), a)):
+    x, y = label.get_position()
+    print(label, angle)
+    lab = ax.text(
+        x,
+        y,
+        label.get_text(),
+        transform=label.get_transform(),
+        fontsize=4,
+        c=(0.7, 0.7, 0.7),
+    )
+    lab.set_rotation(-(angles[0] + angles[1]) / 2)
 
-# Ind2
-values = df.loc[1].drop('group').values.flatten().tolist()
-values += values[:1]
-# ax.fill(angles, values, linewidth=1, linestyle='solid', alpha=0.03, color='#248c5f')
-ax.plot(angles, values, linewidth=1, linestyle='solid', label=df.iloc[1,0], color='#248c5f')
-# ax.fill(angles, values, 'r', alpha=0.1)
+    lab.set_verticalalignment("bottom")
+    lab.set_horizontalalignment("center")
+    lab.set_rotation_mode("anchor")
 
-# Ind2
-values = df.loc[2].drop('group').values.flatten().tolist()
-values += values[:1]
-# ax.fill(angles, values, linewidth=1, linestyle='solid', alpha=0.03, color='#1765a3')
-ax.plot(angles, values, linewidth=1, linestyle='solid', label=df.iloc[2,0], color='#1765a3')
+ax.set_xticklabels([])
+ax.set_yticklabels([])
 
-values = df.loc[3].drop('group').values.flatten().tolist()
-values += values[:1]
-# ax.fill(angles, values, linewidth=1, linestyle='solid', alpha=0.03, color='#e3a844')
-ax.plot(angles, values, linewidth=1, linestyle='dashed', label=df.iloc[3,0], color='#e3a844')
+# plt.savefig("plots/experiment1/radars/%s/1_%s_%s.eps" % (what, classifier_name, parameter_name), bbox_inches='tight', dpi=250)
 
-values = df.loc[4].drop('group').values.flatten().tolist()
-values += values[:1]
-# ax.fill(angles, values, linewidth=1, linestyle='solid', alpha=0.03, color='#efa61a')
-ax.plot(angles, values, linewidth=1, linestyle='solid', label=df.iloc[4,0], color='#efa61a')
-
-values = df.loc[5].drop('group').values.flatten().tolist()
-values += values[:1]
-# ax.fill(angles, values, linewidth=1, linestyle='solid', alpha=0.03, color='red')
-ax.plot(angles, values, linewidth=1, linestyle='dashed', label=df.iloc[5,0], color='#e34844')
-
-values = df.loc[6].drop('group').values.flatten().tolist()
-values += values[:1]
-# ax.fill(angles, values, linewidth=1, linestyle='solid', alpha=0.03, color='red')
-ax.plot(angles, values, linewidth=1, linestyle='solid', label=df.iloc[6,0], color='#e34844')
-
-
-# Add legend
-plt.legend(loc="lower center", ncol=4, columnspacing=1, frameon=False, bbox_to_anchor=(0.5, -0.2))
-# Add a title
-plt.title("Mean ranks for %s, pool size = %s" % (df.iloc[0,0], pool_size), size=11, y=1.08)
-
-plt.savefig("plots3/%s%s.eps" % (df.iloc[0,0], pool_size), bbox_inches='tight')
+plt.savefig("plots/%s%ss.eps" % (df.iloc[0,0], pool_size), bbox_inches='tight')
+plt.close()
